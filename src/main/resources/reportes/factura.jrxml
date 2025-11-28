@@ -40,7 +40,6 @@
                 <textElement textAlignment="Right" verticalAlignment="Middle">
                     <font size="16"/>
                 </textElement>
-                <text><![CDATA[FACTURA DE VENTA]]></text>
             </staticText>
         </band>
     </title>
