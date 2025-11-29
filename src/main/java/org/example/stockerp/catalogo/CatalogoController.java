@@ -28,6 +28,6 @@ public class CatalogoController {
     }
     @GetMapping("/ping")
     public ResponseEntity<MessageResponse>ping(){
-        return ResponseEntity.ok(MessageResponse.success("Catalogo funcionando correctamente"));
+        return ResponseEntity.ok(MessageResponse.success("Catalogo funcionando correctamente."));
     }
 }
