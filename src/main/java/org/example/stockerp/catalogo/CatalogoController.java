@@ -26,4 +26,8 @@ public class CatalogoController {
         productoService.cambiarEstadoProducto(id,estado);
         return ResponseEntity.ok(MessageResponse.success("Estado del producto actualizado con exito"));
     }
+    @GetMapping
+    public ResponseEntity<MessageResponse>ping(){
+        return ResponseEntity.ok(MessageResponse.success("Catalogo funcionando correctamente"));
+    }
 }
