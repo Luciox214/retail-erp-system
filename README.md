@@ -1,12 +1,12 @@
-# Retail ERP System (Backend)
-
-## Descripción del Proyecto
+# Descripción del Proyecto
 Este repositorio contiene el código fuente de un sistema de gestión de recursos (ERP). El sistema implementa lógica de negocio para el control de stock, facturación y seguridad.
 
 ## Funcionalidad Destacada: Integración Web
 El sistema permite la conexión con plataformas externas (como una tienda online).
 * **Sincronización en Tiempo Real:** Los cambios de precio o stock impactan inmediatamente en cualquier frontend conectado.
 * **Control de Visibilidad:** Permite gestionar qué productos se publican en la web y cuáles quedan reservados solo para venta interna.
+<img width="1652" height="757" alt="image" src="https://github.com/user-attachments/assets/e38f2188-9a59-42c3-8829-ce3fabd513cc" />
+
 
 ## Qué puede hacer el sistema
 
