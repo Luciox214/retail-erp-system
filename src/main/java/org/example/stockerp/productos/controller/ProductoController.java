@@ -15,25 +15,37 @@ public class ProductoController {
     ProductoService productoService;
 
     @PostMapping
-    public ResponseEntity<MessageResponse> crearProducto(@RequestBody Producto producto){
-        productoService.crearProducto(producto);
-        return ResponseEntity.ok(MessageResponse.success("Producto creado con exito"));
+    public ResponseEntity<ResponseAPI<Producto>> crearProducto(@RequestBody Producto producto){
+        Producto creado = productoService.crearProducto(producto);
+        return ResponseEntity.ok(ResponseAPI.success("Producto creado", creado));
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponse> eliminarProducto(@PathVariable Long id){
-        productoService.eliminarProducto(id);
-        return ResponseEntity.ok(MessageResponse.success("Producto eliminado con exito"));
+        ProductoService.ResultadoEliminacion r = productoService.eliminarProducto(id);
+        String mensaje = r == ProductoService.ResultadoEliminacion.ARCHIVADO
+                ? "El producto tenía ventas, así que se archivó: ya no aparece en el inventario ni en la web, pero su historial se conserva."
+                : "Producto eliminado";
+        return ResponseEntity.ok(MessageResponse.success(mensaje));
     }
+
     @PutMapping
-    public ResponseEntity<MessageResponse> actualizarProducto(@RequestBody Producto producto){
-        productoService.actualizarProducto(producto);
-        return ResponseEntity.ok(MessageResponse.success("Producto actualizado con exito"));
+    public ResponseEntity<ResponseAPI<Producto>> actualizarProducto(@RequestBody Producto producto){
+        Producto actualizado = productoService.actualizarProducto(producto);
+        return ResponseEntity.ok(ResponseAPI.success("Producto actualizado", actualizado));
     }
+
+    /** Ajuste rápido de stock: PATCH /productos/5/stock?delta=-1 */
+    @PatchMapping("/{id}/stock")
+    public ResponseEntity<ResponseAPI<Producto>> ajustarStock(@PathVariable Long id, @RequestParam int delta){
+        Producto p = productoService.ajustarStock(id, delta);
+        return ResponseEntity.ok(ResponseAPI.success("Stock actualizado", p));
+    }
+
     @GetMapping()
     public ResponseEntity<ResponseAPI<List<Producto>>>obtenerProductos(){
         List<Producto> productos=productoService.obtenerProductos();
-        ResponseAPI<List<Producto>> responseAPI=new ResponseAPI<>("success","Lista de productos obtenida con exito",productos);
-        return ResponseEntity.ok(responseAPI);
+        return ResponseEntity.ok(ResponseAPI.success("Lista de productos obtenida con exito", productos));
     }
 
 }

@@ -18,7 +18,7 @@ public class ReporteService {
 
     public byte[] generarFacturaPdf(Long idVenta) throws JRException {
         Venta venta = ventaRepository.findById(idVenta)
-                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+                .orElseThrow(() -> new org.example.stockerp.exception.NoEncontradoException("La venta no existe o fue anulada."));
 
         InputStream reportStream = getClass().getResourceAsStream("/reportes/factura.jrxml");
 
@@ -30,10 +30,18 @@ public class ReporteService {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("nroFactura", venta.getId().toString());
-        parameters.put("fecha", venta.getFecha().toString().substring(0, 10));
+        parameters.put("fecha", venta.getFecha().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         parameters.put("clienteNombre", venta.getCliente() != null ? venta.getCliente().getNombre() : "Consumidor Final");
         parameters.put("clienteTelefono", venta.getCliente() != null ? venta.getCliente().getTelefono() : "");
         parameters.put("totalVenta", venta.getTotal());
+        parameters.put("descuento", venta.getDescuento());
+        parameters.put("medioPago", venta.getMedioPago() == null ? null : switch (venta.getMedioPago()) {
+            case "EFECTIVO" -> "Efectivo";
+            case "TRANSFERENCIA" -> "Transferencia";
+            case "MERCADO_PAGO" -> "Mercado Pago";
+            case "TARJETA" -> "Tarjeta";
+            default -> "Otro";
+        });
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         return JasperExportManager.exportReportToPdf(jasperPrint);
     }

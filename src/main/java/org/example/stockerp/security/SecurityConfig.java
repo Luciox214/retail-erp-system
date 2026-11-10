@@ -1,4 +1,5 @@
 package org.example.stockerp.security;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,10 +33,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
+    public InMemoryUserDetailsManager userDetailsService(
+            @Value("${app.admin.username:susana}") String username,
+            @Value("${app.admin.password:totonitos2025}") String password) {
         UserDetails user = User.withDefaultPasswordEncoder()
-                .username("susana")
-                .password("totonitos2025") 
+                .username(username)
+                .password(password)
                 .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(user);

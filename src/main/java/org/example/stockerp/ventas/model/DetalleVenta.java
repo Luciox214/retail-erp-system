@@ -23,8 +23,14 @@ public class DetalleVenta {
     private Venta venta;
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
-    @JsonIgnoreProperties({"costo", "stock", "activo", "descripcion", "urlImagen"})
+    @JsonIgnoreProperties({"costo", "stock", "activo", "descripcion"})
     private Producto producto;
     private Integer cantidad;
     private Double precioUnitario;
+    /**
+     * Costo del producto al momento de la venta. Así la ganancia de ventas pasadas no cambia
+     * si después se actualiza el costo. Null en ventas anteriores (se usa el costo actual).
+     */
+    @JsonIgnore
+    private Double costoUnitario;
 }

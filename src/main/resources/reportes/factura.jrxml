@@ -11,6 +11,8 @@
     <parameter name="clienteNombre" class="java.lang.String"/>
     <parameter name="clienteTelefono" class="java.lang.String"/>
     <parameter name="totalVenta" class="java.lang.Double"/>
+    <parameter name="descuento" class="java.lang.Double"/>
+    <parameter name="medioPago" class="java.lang.String"/>
 
     <field name="cantidad" class="java.lang.Integer"/>
     <field name="precioUnitario" class="java.lang.Double"/>
@@ -165,22 +167,44 @@
     </detail>
 
     <summary>
-        <band height="60" splitType="Stretch">
+        <band height="80" splitType="Stretch">
+            <staticText>
+                <reportElement x="350" y="4" width="110" height="18" forecolor="#7F8C8D" uuid="f1a2b3c4-d5e6-4f70-8a9b-0c1d2e3f4a51">
+                    <printWhenExpression><![CDATA[$P{descuento} != null && $P{descuento} > 0]]></printWhenExpression>
+                </reportElement>
+                <textElement verticalAlignment="Middle"/>
+                <text><![CDATA[Descuento:]]></text>
+            </staticText>
+            <textField pattern="- $ #,##0.00">
+                <reportElement x="460" y="4" width="85" height="18" forecolor="#7F8C8D" uuid="f1a2b3c4-d5e6-4f70-8a9b-0c1d2e3f4a52">
+                    <printWhenExpression><![CDATA[$P{descuento} != null && $P{descuento} > 0]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$P{descuento}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="40" width="330" height="20" forecolor="#7F8C8D" uuid="f1a2b3c4-d5e6-4f70-8a9b-0c1d2e3f4a53">
+                    <printWhenExpression><![CDATA[$P{medioPago} != null]]></printWhenExpression>
+                </reportElement>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA["Medio de pago: " + $P{medioPago}]]></textFieldExpression>
+            </textField>
+
             <rectangle>
-                <reportElement x="350" y="10" width="205" height="40" backcolor="#34495E" uuid="c1d2e3f4-a5b6-4789-1234-c1d2e3f4a5b6"/>
+                <reportElement x="350" y="30" width="205" height="40" backcolor="#34495E" uuid="c1d2e3f4-a5b6-4789-1234-c1d2e3f4a5b6"/>
                 <graphicElement>
                     <pen lineWidth="0.0"/>
                 </graphicElement>
             </rectangle>
             <staticText>
-                <reportElement x="360" y="10" width="80" height="40" forecolor="#FFFFFF" uuid="d2e3f4a5-b6c7-4890-2345-d2e3f4a5b6c7"/>
+                <reportElement x="360" y="30" width="80" height="40" forecolor="#FFFFFF" uuid="d2e3f4a5-b6c7-4890-2345-d2e3f4a5b6c7"/>
                 <textElement verticalAlignment="Middle">
                     <font size="14" isBold="true"/>
                 </textElement>
                 <text><![CDATA[TOTAL:]]></text>
             </staticText>
             <textField pattern="$ #,##0.00">
-                <reportElement x="440" y="10" width="105" height="40" forecolor="#FFFFFF" uuid="e3f4a5b6-c7d8-4901-3456-e3f4a5b6c7d8"/>
+                <reportElement x="440" y="30" width="105" height="40" forecolor="#FFFFFF" uuid="e3f4a5b6-c7d8-4901-3456-e3f4a5b6c7d8"/>
                 <textElement textAlignment="Right" verticalAlignment="Middle">
                     <font size="16" isBold="true"/>
                 </textElement>

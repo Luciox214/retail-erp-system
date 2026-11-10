@@ -1,4 +1,5 @@
 package org.example.stockerp.productos.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class Producto {
     private Long id;
     @Column(nullable = false)
     private String nombre;
+    @Column(length = 2000)
     private String descripcion;
     @Column(nullable = false)
     private Double costo;
@@ -23,5 +25,18 @@ public class Producto {
     @Column(nullable = false)
     private Integer stock;
     private String urlImagen;
-    private Boolean activo=true;
+    /** Visible en la tienda web. */
+    private Boolean activo = true;
+    /**
+     * Un producto con ventas no se puede borrar (rompería el historial), así que se archiva:
+     * deja de aparecer en el inventario y en la web, pero sus ventas pasadas se conservan.
+     * Puede ser null en filas creadas antes de agregar esta columna (equivale a false).
+     */
+    @JsonIgnore
+    private Boolean archivado = false;
+
+    @JsonIgnore
+    public boolean isArchivadoSeguro() {
+        return Boolean.TRUE.equals(archivado);
+    }
 }

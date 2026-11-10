@@ -18,7 +18,16 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime fecha;
+    /** Total cobrado (subtotal de los productos menos el descuento). */
     private double total;
+    /** Descuento en pesos aplicado a la venta. Null en ventas anteriores a este campo. */
+    private Double descuento;
+    /** EFECTIVO, TRANSFERENCIA, MERCADO_PAGO, TARJETA u OTRO. Null en ventas anteriores. */
+    private String medioPago;
+    /** Nota libre: seña, envío, encargo, etc. */
+    @Column(length = 500)
+    private String nota;
+    /** Opcional: una venta puede ser a "consumidor final". */
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
